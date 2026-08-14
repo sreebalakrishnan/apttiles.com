@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AP Tiles — Terra Cotta Craft from Balaghat</title>
+  <meta name="description" content="35 years of terra cotta excellence. Mangalorean roofing tiles, designer jalis, and custom elevation products. Solar-positive manufacturing, exported worldwide." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --terra: #8B3A2A;
+      --terra-light: #C4705A;
+      --clay: #D2691E;
+      --cream: #FDF5E6;
+      --slate: #2F4F4F;
+      --black: #1A1A1A;
+      --gray-1: #333;
+      --gray-2: #666;
+      --gray-3: #999;
+      --gray-4: #E5E5E5;
+      --gray-5: #F5F5F5;
+      --white: #FFFFFF;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --shadow: 0 2px 12px rgba(0,0,0,0.06);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.10);
+      --transition: all 0.25s ease;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'Inter', 'Noto Sans Devanagari', system-ui, -apple-system, sans-serif;
+      color: var(--black);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Hindi font override */
+    body[lang="hi"] { font-family: 'Noto Sans Devanagari', 'Inter', system-ui, sans-serif; }
+    body[lang="hi"] .en-only { display: none; }
+    body[lang="en"] .hi-only { display: none; }
+
+    img { max-width: 100%; display: block; }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* Container */
+    .container { width: 100%; max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+    @media (min-width: 768px) { .container { padding: 0 32px; } }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 12px 24px; border-radius: var(--radius-md); font-size: 15px; font-weight: 500;
+      cursor: pointer; border: none; transition: var(--transition); white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--terra); color: var(--white);
+    }
+    .btn-primary:hover { background: #6B2D20; transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+    .btn-secondary {
+      background: transparent; color: var(--black); border: 1.5px solid var(--gray-4);
+    }
+    .btn-secondary:hover { border-color: var(--terra); color: var(--terra); background: rgba(139,58,42,0.04); }
+    .btn-whatsapp {
+      background: #25D366; color: var(--white);
+    }
+    .btn-whatsapp:hover { background: #1DA851; }
+
+    /* Navigation */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-4);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 18px; color: var(--black);
+    }
+    .logo-mark {
+      width: 28px; height: 28px; background: var(--terra); border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 12px; font-weight: 600;
+    }
+    .nav-links { display: none; align-items: center; gap: 28px; }
+    .nav-links a {
+      font-size: 14px; font-weight: 500; color: var(--gray-2); transition: var(--transition);
+    }
+    .nav-links a:hover { color: var(--terra); }
+    .lang-toggle {
+      display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500;
+      padding: 4px 10px; border-radius: var(--radius-sm); border: 1px solid var(--gray-4);
+      cursor: pointer; background: var(--white); transition: var(--transition);
+    }
+    .lang-toggle:hover { border-color: var(--terra); }
+    .lang-toggle span { cursor: pointer; color: var(--gray-3); }
+    .lang-toggle span.active { color: var(--black); }
+    .mobile-menu-btn {
+      display: flex; flex-direction: column; gap: 5px; padding: 8px; cursor: pointer; background: none; border: none;
+    }
+    .mobile-menu-btn span {
+      display: block; width: 22px; height: 2px; background: var(--black); border-radius: 2px; transition: var(--transition);
+    }
+    .mobile-menu {
+      display: none; position: absolute; top: 64px; left: 0; right: 0;
+      background: var(--white); border-bottom: 1px solid var(--gray-4);
+      padding: 16px 20px; flex-direction: column; gap: 12px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 15px; font-weight: 500; color: var(--gray-1); padding: 8px 0;
+      border-bottom: 1px solid var(--gray-5);
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    
+    @media (min-width: 768px) {
+      .nav-links { display: flex; }
+      .mobile-menu-btn { display: none; }
+      .mobile-menu { display: none !important; }
+    }
+
+    /* Hero */
+    .hero {
+      padding: 120px 0 64px; text-align: center;
+      background: linear-gradient(180deg, var(--cream) 0%, var(--white) 100%);
+    }
+    .hero h1 {
+      font-size: 36px; font-weight: 600; line-height: 1.15; color: var(--black);
+      max-width: 700px; margin: 0 auto 16px;
+    }
+    .hero p {
+      font-size: 17px; color: var(--gray-2); max-width: 560px; margin: 0 auto 32px;
+    }
+    .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    
+    @media (min-width: 768px) {
+      .hero { padding: 140px 0 80px; }
+      .hero h1 { font-size: 52px; }
+      .hero p { font-size: 18px; }
+    }
+
+    /* Trust bar */
+    .trust {
+      padding: 28px 0; border-bottom: 1px solid var(--gray-4);
+    }
+    .trust-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+    }
+    .trust-item { text-align: center; }
+    .trust-item .num {
+      font-size: 28px; font-weight: 600; color: var(--terra); line-height: 1.2;
+      font-variant-numeric: tabular-nums;
+    }
+    .trust-item .lbl {
+      font-size: 13px; color: var(--gray-3); margin-top: 4px;
+    }
+    @media (min-width: 768px) {
+      .trust-grid { grid-template-columns: repeat(4, 1fr); }
+      .trust-item .num { font-size: 32px; }
+    }
+
+    /* Section */
+    .section { padding: 56px 0; }
+    @media (min-width: 768px) { .section { padding: 80px 0; } }
+    
+    .section-header {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 32px;
+    }
+    .section-header h2 {
+      font-size: 22px; font-weight: 600; white-space: nowrap;
+    }
+    .section-header .line {
+      flex: 1; height: 1px; background: var(--gray-4);
+    }
+    @media (min-width: 768px) {
+      .section-header h2 { font-size: 28px; }
+    }
+
+    /* Products */
+    .products-grid {
+      display: grid; grid-template-columns: 1fr; gap: 16px;
+    }
+    .product-card {
+      border: 1px solid var(--gray-4); border-radius: var(--radius-lg);
+      overflow: hidden; transition: var(--transition); cursor: pointer;
+      background: var(--white);
+    }
+    .product-card:hover {
+      border-color: var(--terra-light); box-shadow: var(--shadow-lg); transform: translateY(-2px);
+    }
+    .product-img {
+      width: 100%; height: 200px; background: var(--gray-5);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gray-3); font-size: 13px; position: relative; overflow: hidden;
+    }
+    .product-img::before {
+      content: ""; position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        45deg, transparent, transparent 10px, rgba(0,0,0,0.02) 10px, rgba(0,0,0,0.02) 20px
+      );
+    }
+    .product-body { padding: 20px; }
+    .product-body h3 { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+    .product-body p { font-size: 14px; color: var(--gray-2); line-height: 1.5; }
+    .product-tag {
+      display: inline-block; margin-top: 12px; padding: 4px 10px;
+      background: rgba(139,58,42,0.08); color: var(--terra);
+      font-size: 12px; font-weight: 500; border-radius: var(--radius-sm);
+    }
+    @media (min-width: 640px) {
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* Sustainability */
+    .sus-grid {
+      display: grid; grid-template-columns: 1fr; gap: 16px;
+    }
+    .sus-card {
+      padding: 24px; border: 1px solid var(--gray-4); border-radius: var(--radius-lg);
+      transition: var(--transition);
+    }
+    .sus-card:hover { border-color: var(--terra-light); background: rgba(139,58,42,0.02); }
+    .sus-icon {
+      width: 40px; height: 40px; border-radius: var(--radius-md);
+      background: rgba(139,58,42,0.08); color: var(--terra);
+      display: flex; align-items: center; justify-content: center; margin-bottom: 14px;
+    }
+    .sus-card h4 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+    .sus-card p { font-size: 14px; color: var(--gray-2); line-height: 1.5; }
+    @media (min-width: 640px) {
+      .sus-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* Process */
+    .process-track {
+      display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px;
+      scrollbar-width: thin; scrollbar-color: var(--gray-4) transparent;
+    }
+    .process-track::-webkit-scrollbar { height: 4px; }
+    .process-track::-webkit-scrollbar-thumb { background: var(--gray-4); border-radius: 4px; }
+    .process-step {
+      min-width: 160px; flex-shrink: 0; padding: 20px;
+      border: 1px solid var(--gray-4); border-radius: var(--radius-lg); text-align: center;
+    }
+    .process-step .dot {
+      width: 10px; height: 10px; border-radius: 50%; background: var(--terra); margin: 0 auto 10px;
+    }
+    .process-step h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .process-step p { font-size: 13px; color: var(--gray-3); }
+
+    /* Contact */
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr; gap: 32px;
+    }
+    .contact-info h3 { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+    .contact-row {
+      display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px;
+      font-size: 15px; color: var(--gray-1);
+    }
+    .contact-row svg { flex-shrink: 0; margin-top: 3px; color: var(--terra); }
+    .contact-row a { color: var(--terra); }
+    .contact-row a:hover { text-decoration: underline; }
+    
+    .contact-form { display: flex; flex-direction: column; gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 13px; font-weight: 500; color: var(--gray-2); }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      padding: 12px 14px; border-radius: var(--radius-md); border: 1.5px solid var(--gray-4);
+      font: inherit; font-size: 15px; color: var(--black); background: var(--white);
+      transition: var(--transition); width: 100%;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none; border-color: var(--terra); box-shadow: 0 0 0 3px rgba(139,58,42,0.08);
+    }
+    .form-group textarea { min-height: 100px; resize: vertical; }
+    
+    @media (min-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr 1fr; gap: 48px; }
+    }
+
+    /* Footer */
+    .footer {
+      padding: 32px 0; text-align: center; border-top: 1px solid var(--gray-4);
+      font-size: 13px; color: var(--gray-3);
+    }
+
+    /* Utility */
+    .text-center { text-align: center; }
+    .mt-8 { margin-top: 8px; }
+    .mt-16 { margin-top: 16px; }
+    .mt-24 { margin-top: 24px; }
+  </style>
+</head>
+<body lang="en">
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="#" class="logo">
+        <div class="logo-mark">AP</div>
+        <span>AP Tiles</span>
+      </a>
+      <div class="nav-links">
+        <a href="#products"><span class="en-only">Products</span><span class="hi-only">उत्पाद</span></a>
+        <a href="#sustainability"><span class="en-only">Sustainability</span><span class="hi-only">स्थिरता</span></a>
+        <a href="#process"><span class="en-only">Process</span><span class="hi-only">प्रक्रिया</span></a>
+        <a href="#contact"><span class="en-only">Contact</span><span class="hi-only">संपर्क</span></a>
+        <button class="lang-toggle" onclick="toggleLang()" aria-label="Toggle language">
+          <span id="lang-en" class="active">EN</span>
+          <span style="color:var(--gray-4)">/</span>
+          <span id="lang-hi">हिन्दी</span>
+        </button>
+      </div>
+      <button class="mobile-menu-btn" onclick="toggleMobile()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#products" onclick="toggleMobile()"><span class="en-only">Products</span><span class="hi-only">उत्पाद</span></a>
+      <a href="#sustainability" onclick="toggleMobile()"><span class="en-only">Sustainability</span><span class="hi-only">स्थिरता</span></a>
+      <a href="#process" onclick="toggleMobile()"><span class="en-only">Process</span><span class="hi-only">प्रक्रिया</span></a>
+      <a href="#contact" onclick="toggleMobile()"><span class="en-only">Contact</span><span class="hi-only">संपर्क</span></a>
+      <div style="padding-top:8px;">
+        <button class="lang-toggle" onclick="toggleLang()" style="width:100%;justify-content:center;">
+          <span id="lang-en-m" class="active">EN</span>
+          <span style="color:var(--gray-4)">/</span>
+          <span id="lang-hi-m">हिन्दी</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1>
+        <span class="en-only">Crafted from Balaghat clay.<br>Built for generations.</span>
+        <span class="hi-only">बालाघाट की मिट्टी से बना।<br>पीढ़ियों के लिए बना।</span>
+      </h1>
+      <p>
+        <span class="en-only">35 years of terra cotta excellence — Mangalorean roofing tiles, designer jalis, and custom elevation products. Solar-positive manufacturing, exported worldwide.</span>
+        <span class="hi-only">35 साल का टेराकोटा शिल्प — मैंगलोर छत की टाइलें, डिजाइनर जाली, और कस्टम एलिवेशन उत्पाद। सौर-सकारात्मक निर्माण, विश्वभर निर्यात।</span>
+      </p>
+      <div class="hero-btns">
+        <a href="#products" class="btn btn-primary">
+          <span class="en-only">Explore products</span>
+          <span class="hi-only">उत्पाद देखें</span>
+        </a>
+        <a href="#contact" class="btn btn-secondary">
+          <span class="en-only">Architect inquiry</span>
+          <span class="hi-only">वास्तुकार पूछताछ</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust -->
+  <section class="trust">
+    <div class="container">
+      <div class="trust-grid">
+        <div class="trust-item">
+          <div class="num">35</div>
+          <div class="lbl"><span class="en-only">Years of craft</span><span class="hi-only">साल का शिल्प</span></div>
+        </div>
+        <div class="trust-item">
+          <div class="num">25L</div>
+          <div class="lbl"><span class="en-only">Tiles per year</span><span class="hi-only">टाइलें प्रति वर्ष</span></div>
+        </div>
+        <div class="trust-item">
+          <div class="num">10+</div>
+          <div class="lbl"><span class="en-only">Countries exported</span><span class="hi-only">देशों में निर्यात</span></div>
+        </div>
+        <div class="trust-item">
+          <div class="num">4–6°</div>
+          <div class="lbl"><span class="en-only">Cooler rooms</span><span class="hi-only">ठंडे कमरे</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section class="section" id="products">
+    <div class="container">
+      <div class="section-header">
+        <h2><span class="en-only">Products</span><span class="hi-only">उत्पाद</span></h2>
+        <div class="line"></div>
+      </div>
+      <div class="products-grid">
+        <div class="product-card">
+          <div class="product-img">[Photo: Mangalorean tiles]</div>
+          <div class="product-body">
+            <h3><span class="en-only">Mangalorean roofing tiles</span><span class="hi-only">मैंगलोर छत की टाइलें</span></h3>
+            <p><span class="en-only">Traditional double-curved tiles for rural homes and modern farmhouses across India.</span><span class="hi-only">भारत भर में ग्रामीण घरों और आधुनिक फार्महाउस के लिए पारंपरिक दोहरी वक्र टाइलें।</span></p>
+            <span class="product-tag"><span class="en-only">Pan-India</span><span class="hi-only">पैन-इंडिया</span></span>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img">[Photo: Designer tiles]</div>
+          <div class="product-body">
+            <h3><span class="en-only">Designer tiles</span><span class="hi-only">डिजाइनर टाइलें</span></h3>
+            <p><span class="en-only">Custom shapes and textures for architects — villas, resorts, and elevation projects.</span><span class="hi-only">वास्तुकारों के लिए कस्टम आकार और बनावट — विला, रिज़ॉर्ट और एलिवेशन परियोजनाएँ।</span></p>
+            <span class="product-tag"><span class="en-only">Customizable</span><span class="hi-only">अनुकूलन योग्य</span></span>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img">[Photo: Jali panels]</div>
+          <div class="product-body">
+            <h3><span class="en-only">Jali & elevation</span><span class="hi-only">जाली और एलिवेशन</span></h3>
+            <p><span class="en-only">Decorative screens and facade elements. Custom dies available at sufficient scale.</span><span class="hi-only">सजावटी स्क्रीन और फ़ासाड तत्व। पर्याप्त मात्रा में कस्टम डाइ उपलब्ध।</span></p>
+            <span class="product-tag"><span class="en-only">Export grade</span><span class="hi-only">निर्यात ग्रेड</span></span>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img">[Photo: Snow-shedding tiles]</div>
+          <div class="product-body">
+            <h3><span class="en-only">Export series</span><span class="hi-only">निर्यात श्रृंखला</span></h3>
+            <p><span class="en-only">Engineered for European snow loads and Southeast Asian monsoons. Bangladesh, Sri Lanka, Thailand.</span><span class="hi-only">यूरोपीय बर्फ भार और दक्षिणपूर्व एशियाई मानसून के लिए इंजीनियर। बांग्लादेश, श्रीलंका, थाईलैंड।</span></p>
+            <span class="product-tag">ISO</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sustainability -->
+  <section class="section" id="sustainability" style="background:var(--gray-5)">
+    <div class="container">
+      <div class="section-header">
+        <h2><span class="en-only">Sustainability</span><span class="hi-only">स्थिरता</span></h2>
+        <div class="line"></div>
+      </div>
+      <div class="sus-grid">
+        <div class="sus-card">
+          <div class="sus-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          </div>
+          <h4><span class="en-only">Solar positive</span><span class="hi-only">सौर-सकारात्मक</span></h4>
+          <p><span class="en-only">We generate more clean energy than we consume. No coal, no diesel imports. Surplus solar powers our kilns.</span><span class="hi-only">हम अपनी खपत से अधिक स्वच्छ ऊर्जा उत्पन्न करते हैं। कोयला नहीं, डीजल आयात नहीं। अतिरिक्त सौर ऊर्जा हमारे भट्ठों को चलाती है।</span></p>
+        </div>
+        <div class="sus-card">
+          <div class="sus-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <h4><span class="en-only">Biodegradable fuel</span><span class="hi-only">जैव-अपघटनी ईंधन</span></h4>
+          <p><span class="en-only">Kilns run on rice husk and agricultural waste — not coal. Farmers benefit when we remove unproductive topsoil.</span><span class="hi-only">भट्ठियाँ चावल के भूसे और कृषि अपशिष्ट पर चलती हैं — कोयले पर नहीं। किसानों को लाभ होता है जब हम अनुत्पादक topsoil हटाते हैं।</span></p>
+        </div>
+        <div class="sus-card">
+          <div class="sus-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h4><span class="en-only">Natural insulation</span><span class="hi-only">प्राकृतिक इन्सुलेशन</span></h4>
+          <p><span class="en-only">Terra cotta ventilation reduces room temperature by 4–6°C, cutting AC load and electricity bills significantly.</span><span class="hi-only">टेराकोटा वेंटिलेशन कमरे के तापमान को 4–6°C कम करता है, जिससे AC भार और बिजली के बिल कम होते हैं।</span></p>
+        </div>
+        <div class="sus-card">
+          <div class="sus-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h4><span class="en-only">Local employment</span><span class="hi-only">स्थानीय रोज़गार</span></h4>
+          <p><span class="en-only">Seasonal factory work keeps Balaghat families employed year-round, preventing migration to bigger cities.</span><span class="hi-only">मौसमी कारखाना काम बालाघाट के परिवारों को पूरे साल रोज़गार देता है, बड़े शहरों में पलायन रोकता है।</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="section" id="process">
+    <div class="container">
+      <div class="section-header">
+        <h2><span class="en-only">Our process</span><span class="hi-only">हमारी प्रक्रिया</span></h2>
+        <div class="line"></div>
+      </div>
+      <div class="process-track">
+        <div class="process-step">
+          <div class="dot"></div>
+          <h4><span class="en-only">Extraction</span><span class="hi-only">निष्कर्षण</span></h4>
+          <p><span class="en-only">Balaghat clay</span><span class="hi-only">बालाघाट की मिट्टी</span></p>
+        </div>
+        <div class="process-step">
+          <div class="dot"></div>
+          <h4><span class="en-only">Grinding</span><span class="hi-only">पीसना</span></h4>
+          <p><span class="en-only">Refined texture</span><span class="hi-only">सुधारित बनावट</span></p>
+        </div>
+        <div class="process-step">
+          <div class="dot"></div>
+          <h4><span class="en-only">De-airing</span><span class="hi-only">हवा निकालना</span></h4>
+          <p><span class="en-only">10× strength</span><span class="hi-only">10 गुना मज़बूती</span></p>
+        </div>
+        <div class="process-step">
+          <div class="dot"></div>
+          <h4><span class="en-only">Pressing</span><span class="hi-only">दबाना</span></h4>
+          <p><span class="en-only">Custom dies</span><span class="hi-only">कस्टम डाइ</span></p>
+        </div>
+        <div class="process-step">
+          <div class="dot"></div>
+          <h4><span class="en-only">Drying</span><span class="hi-only">सुखाना</span></h4>
+          <p><span class="en-only">8–12 days</span><span class="hi-only">8–12 दिन</span></p>
+        </div>
+        <div class="process-step">
+          <div class="dot"></div>
+          <h4><span class="en-only">Kiln fire</span><span class="hi-only">भट्ठी आग</span></h4>
+          <p><span class="en-only">600–1000°C</span><span class="hi-only">600–1000°C</span></p>
+        </div>
+        <div class="process-step">
+          <div class="dot"></div>
+          <h4><span class="en-only">QC & pack</span><span class="hi-only">QC और पैकिंग</span></h4>
+          <p><span class="en-only">Hand inspected</span><span class="hi-only">हाथ से जाँच</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section" id="contact" style="background:var(--cream)">
+    <div class="container">
+      <div class="section-header">
+        <h2><span class="en-only">Get in touch</span><span class="hi-only">संपर्क करें</span></h2>
+        <div class="line"></div>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3><span class="en-only">Contact us</span><span class="hi-only">हमसे संपर्क करें</span></h3>
+          
+          <div class="contact-row">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <div>
+              <div style="font-weight:500;">Harsh Trivedi</div>
+              <a href="tel:+919425139558">+91 94251 39558</a>
+            </div>
+          </div>
+          
+          <div class="contact-row">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <div>
+              <div style="font-weight:500;">Nishel Trivedi</div>
+              <a href="tel:+919730100">+91 97301 00</a>
+            </div>
+          </div>
+          
+          <div class="contact-row">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <div>
+              <div style="font-weight:500;">Amule (Manager)</div>
+              <a href="tel:+918270917433">+91 82709 17433</a>
+            </div>
+          </div>
+          
+          <div class="contact-row">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <a href="mailto:info@apttiles.com">info@apttiles.com</a>
+          </div>
+          
+          <div class="contact-row">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span><span class="en-only">Balaghat, Madhya Pradesh, India</span><span class="hi-only">बालाघाट, मध्य प्रदेश, भारत</span></span>
+          </div>
+
+          <a href="https://wa.me/919425139558?text=Hi%20AP%20Tiles%2C%20I%20am%20interested%20in%20your%20terra%20cotta%20products." target="_blank" class="btn btn-whatsapp mt-16" style="width:100%;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <span class="en-only">Chat on WhatsApp</span>
+            <span class="hi-only">WhatsApp पर चैट करें</span>
+          </a>
+        </div>
+
+        <form class="contact-form" onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label><span class="en-only">Your name</span><span class="hi-only">आपका नाम</span></label>
+            <input type="text" required placeholder="e.g. Rajesh Sharma">
+          </div>
+          <div class="form-group">
+            <label><span class="en-only">Email address</span><span class="hi-only">ईमेल पता</span></label>
+            <input type="email" required placeholder="you@example.com">
+          </div>
+          <div class="form-group">
+            <label><span class="en-only">Phone</span><span class="hi-only">फ़ोन</span></label>
+            <input type="tel" placeholder="+91 98765 43210">
+          </div>
+          <div class="form-group">
+            <label><span class="en-only">Project type</span><span class="hi-only">परियोजना प्रकार</span></label>
+            <select>
+              <option><span class="en-only">Select...</span><span class="hi-only">चुनें...</span></option>
+              <option><span class="en-only">Home / Residential</span><span class="hi-only">घर / आवासीय</span></option>
+              <option><span class="en-only">Architect / Designer</span><span class="hi-only">वास्तुकार / डिजाइनर</span></option>
+              <option><span class="en-only">Export / Bulk order</span><span class="hi-only">निर्यात / थोक ऑर्डर</span></option>
+              <option><span class="en-only">Other</span><span class="hi-only">अन्य</span></option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label><span class="en-only">Tell us what you need</span><span class="hi-only">हमें बताएं आपको क्या चाहिए</span></label>
+            <textarea required placeholder="I need 5000 Mangalorean tiles for a farmhouse project in Nagpur..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="align-self:flex-start;">
+            <span class="en-only">Send inquiry</span>
+            <span class="hi-only">पूछताछ भेजें</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 AP Tiles, Balaghat. <span class="en-only">Crafted in clay. Powered by sun.</span><span class="hi-only">मिट्टी में बना। सूरज से चला।</span></p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleLang() {
+      const body = document.body;
+      const isEn = body.getAttribute('lang') === 'en';
+      body.setAttribute('lang', isEn ? 'hi' : 'en');
+      
+      // Update toggles
+      document.querySelectorAll('#lang-en, #lang-en-m').forEach(el => el.classList.toggle('active', !isEn));
+      document.querySelectorAll('#lang-hi, #lang-hi-m').forEach(el => el.classList.toggle('active', isEn));
+    }
+
+    function toggleMobile() {
+      document.getElementById('mobileMenu').classList.toggle('open');
+    }
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('button[type=\"submit\"]');
+      const original = btn.innerHTML;
+      btn.innerHTML = '<span class=\"en-only\">Sent! We will reply shortly.</span><span class=\"hi-only\">भेज दिया! हम जल्द ही जवाब देंगे।</span>';
+      btn.style.background = 'var(--slate)';
+      setTimeout(() => {
+        btn.innerHTML = original;
+        btn.style.background = '';
+        e.target.reset();
+      }, 3000);
+    }
+
+    // Close mobile menu on resize
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768) document.getElementById('mobileMenu').classList.remove('open');
+    });
+  </script>
+</body>
+</html>
