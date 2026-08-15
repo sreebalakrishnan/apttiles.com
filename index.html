@@ -473,7 +473,15 @@
     }
     .video-hit:focus-visible { outline:3px solid #ffd9c8; outline-offset:-5px; }
     .video-card iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
-    .video-card.playing > :not(iframe) { display:none; }
+    .sound-hint {
+      position: absolute; z-index: 4; left: 12px; right: 12px; bottom: 14px;
+      padding: .5rem .7rem; border-radius: 999px; pointer-events: none;
+      background: rgba(20,10,6,.72); backdrop-filter: blur(6px);
+      color: #fff; font-size: .72rem; text-align: center; letter-spacing: .02em;
+      transition: opacity .6s ease;
+    }
+    .sound-hint.fade { opacity: 0; }
+    .video-card.playing > :not(iframe):not(.sound-hint) { display:none; }
     .video-card.playing::after { display:none; }
     .video-card.playing:hover { transform:none; }
     .story { background:white; }
@@ -1021,12 +1029,19 @@
 
     /* Custom-tile film. Swap VIDEO_ID if the video is ever replaced.
 
-       Creating the player only on click means it initialises after the user
-       gesture, so YouTube shows its own play button and the visitor has to
-       click twice. Instead the player is created on the first sign of intent
-       (hover, focus, or the touch that precedes a tap) and then told to play
-       from inside the click handler, where the gesture is still live. */
+       A cross-origin iframe does not inherit the click that created it, and
+       postMessage does not carry user activation either, so asking an
+       already-loaded player to play still gets refused. Browsers only ever
+       allow one thing unconditionally: muted autoplay. So the player is
+       created inside the click with autoplay and mute both on, which starts
+       playback on the first tap on every platform, and the visitor turns
+       sound on from the player's own control.
+
+       Set START_MUTED to false to get sound from the first frame instead —
+       that works on desktop Chrome and Firefox, but on iOS and iPadOS Safari
+       it silently reverts to needing a second tap. */
     const VIDEO_ID = 'q9rSaPrv2q0';
+    const START_MUTED = true;
     const YT = 'https://www.youtube-nocookie.com';
     const videoCard = document.getElementById('videoCard');
     const videoHit = document.getElementById('videoHit');
@@ -1036,37 +1051,48 @@
     if (poster.complete && poster.naturalWidth) showPoster();   // already cached
     else poster.addEventListener('load', showPoster);
 
-    let frame = null;
-    function buildPlayer(autoplay) {
-      if (frame) return;
-      const q = new URLSearchParams({
-        enablejsapi: '1', rel: '0', playsinline: '1', modestbranding: '1',
-        autoplay: autoplay ? '1' : '0'
-      });
-      if (location.protocol.startsWith('http')) q.set('origin', location.origin);
-      frame = document.createElement('iframe');
-      frame.src = `${YT}/embed/${VIDEO_ID}?${q}`;
-      frame.title = 'How a custom terracotta tile is made — APT Tiles';
-      frame.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share';
-      frame.allowFullscreen = true;
-      videoCard.appendChild(frame);
+    /* Warm the connection on intent. This is only DNS, TCP and TLS — no
+       YouTube request is made until the visitor actually clicks. */
+    let warmed = false;
+    function warm() {
+      if (warmed) return;
+      warmed = true;
+      for (const href of [YT, 'https://www.google.com', 'https://i.ytimg.com']) {
+        const l = document.createElement('link');
+        l.rel = 'preconnect'; l.href = href; l.crossOrigin = '';
+        document.head.appendChild(l);
+      }
     }
-
-    const intent = () => buildPlayer(false);
-    videoCard.addEventListener('pointerenter', intent, { once: true });
-    videoCard.addEventListener('touchstart', intent, { once: true, passive: true });
-    videoHit.addEventListener('focus', intent, { once: true });
+    videoCard.addEventListener('pointerenter', warm, { once: true });
+    videoCard.addEventListener('touchstart', warm, { once: true, passive: true });
+    videoHit.addEventListener('focus', warm, { once: true });
 
     videoHit.addEventListener('click', () => {
-      const primed = frame !== null;
-      buildPlayer(!primed);            // no intent fired (rare): fall back to autoplay
+      const q = new URLSearchParams({
+        autoplay: '1',
+        mute: START_MUTED ? '1' : '0',
+        playsinline: '1', rel: '0', modestbranding: '1'
+      });
+      const frame = document.createElement('iframe');
+      frame.src = `${YT}/embed/${VIDEO_ID}?${q}`;
+      frame.title = 'How a custom terracotta tile is made — APT Tiles';
+      frame.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen; web-share';
+      frame.allowFullscreen = true;
       videoCard.classList.add('playing');
-      if (!primed) return;
-      const play = () => frame.contentWindow && frame.contentWindow.postMessage(
-        JSON.stringify({ event: 'command', func: 'playVideo', args: [] }), YT);
-      play();
-      setTimeout(play, 300);           // in case the player was still booting
+      videoCard.replaceChildren(frame);
+      if (START_MUTED) videoCard.appendChild(soundHint());
     }, { once: true });
+
+    /* Muted playback needs to advertise itself, or it reads as broken audio. */
+    function soundHint() {
+      const el = document.createElement('span');
+      el.className = 'sound-hint';
+      el.textContent = document.documentElement.lang === 'hi'
+        ? 'आवाज़ के लिए प्लेयर में अनम्यूट करें'
+        : 'Tap the speaker in the player for sound';
+      setTimeout(() => el.classList.add('fade'), 5200);
+      return el;
+    }
 
     const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lbImg');
