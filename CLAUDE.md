@@ -7,17 +7,20 @@ or CRM.
 
 ## Shape of the project
 
-Two hand-written static pages plus an assets folder. **No build step, no
-dependencies, no package.json, no tests.** CSS and JS are inline in each page.
-Edit the HTML directly.
+Two hand-written static pages, 27 generated product pages, and an assets
+folder. **No build step, no dependencies, no package.json, no tests.** CSS and
+JS are inline in the two hand-written pages; edit those directly. The product
+pages are generated — see below.
 
 ```
 index.html        landing page — hero, products, gallery, material, process,
                   design + video, story, FAQ, contact
 products.html     catalogue — 27 products, filter, search, detail modal
+products/         one generated page per product, <id>.html
 assets/           images, fonts, icons (117 files, ~5.8 MB)
   gallery/        project photographs + README.md documenting the workflow
   products/       catalogue images
+  product.css     shared stylesheet for the generated product pages
 .htaccess         MIME, compression, caching, directory protection
 robots.txt  sitemap.xml  llms.txt
 ```
@@ -96,10 +99,27 @@ and zero products to anything that does not execute JavaScript.
 **If you change the card or tile template in JS, change the pre-rendered markup
 to match.** They must stay identical or the page flickers on load.
 
+### Generated product pages
+
+`products/<id>.html` is generated from the `products` array — 27 pages, so
+search engines have something rankable per product rather than one URL with
+`#fragments`. Regenerate them whenever the array changes; do not hand-edit.
+
+They share `assets/product.css` rather than inlining, which is the one place
+this project deviates from "CSS lives in the page": duplicating ~12 KB into 27
+files helps nobody, and one cached file serves the whole set.
+
+Catalogue cards are `<a href="products/<id>.html">`. JS calls `preventDefault()`
+on a plain left click to open the modal instead, and lets modified clicks
+through so the page still opens in a new tab. **Both the pre-rendered markup
+and the JS template must stay anchors** — reverting either to `<article>` makes
+the catalogue uncrawlable again.
+
 ### Structured data
 
 `index.html` — `LocalBusiness`, `WebSite`, `VideoObject`, `FAQPage`.
 `products.html` — `BreadcrumbList`, `CollectionPage`, `ItemList` of all 27.
+`products/<id>.html` — `BreadcrumbList`, `Product`.
 
 The FAQ's visible section and its schema are generated from one source so they
 cannot drift.
@@ -156,8 +176,6 @@ Two traps:
   full frames. Needs clean originals from the client.
 - The **27 catalogue images are CGI renders** with the printed catalogue's page
   numbers visible in a corner. Replace when real product photography exists.
-- All 27 products live at `products.html#<id>`. Search engines cannot rank a
-  fragment; **individual product pages** are the biggest remaining SEO lever.
 - Hindi content lives in `data-hi` attributes, so it is **not indexable**. The
   site is effectively English-only for search.
 - The two pages have slightly diverged CSS tokens (`--sand`, `--cream`).
