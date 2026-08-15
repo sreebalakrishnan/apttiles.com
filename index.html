@@ -313,37 +313,34 @@
         var(--terra);
       background-size:88px 88px;
     }
-    /* Click-to-play facade: no YouTube request until the visitor asks for one. */
+    /* Click-to-play facade. The player is created on hover/touch intent and
+       told to play inside the click itself, so the first click starts it. */
     .video-card {
-      position:relative; width:min(300px,100%); aspect-ratio:9/16; border:0; padding:0;
-      border-radius:20px; overflow:hidden; cursor:pointer; display:block; color:white;
+      position:relative; width:min(300px,100%); aspect-ratio:9/16;
+      border-radius:20px; overflow:hidden; color:white;
       box-shadow:0 26px 64px rgba(0,0,0,.34);
       transition:transform .25s ease;
-    }
-    .video-card:hover { transform:translateY(-3px); }
-    .video-card:focus-visible { outline:3px solid #ffd9c8; outline-offset:4px; }
-    /* The brand-toned fallback is always the card's background; the poster
-       fades in over it once decoded. Never display:none a lazy image — it
-       would never load. */
-    .video-card {
       background:
         repeating-linear-gradient(45deg, rgba(255,255,255,.05) 0 12px, transparent 12px 24px),
         linear-gradient(165deg, #8c3a24, #5a2318);
     }
+    .video-card:hover { transform:translateY(-3px); }
+    /* The poster fades in over the fallback once decoded. Never display:none a
+       lazy image — the browser would never load it. */
     .video-card img {
       width:100%; height:100%; object-fit:cover;
       opacity:0; transition:opacity .45s ease;
     }
     .video-card.hasposter img { opacity:1; }
     .video-card::after {
-      content:""; position:absolute; inset:0; pointer-events:none;
+      content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
       background:linear-gradient(transparent 45%, rgba(20,9,5,.85));
     }
     .video-play {
       position:absolute; z-index:2; top:44%; left:50%; transform:translate(-50%,-50%);
       width:66px; height:66px; border-radius:50%; display:grid; place-items:center;
       background:rgba(255,255,255,.94); box-shadow:0 8px 26px rgba(0,0,0,.34);
-      transition:transform .25s ease;
+      transition:transform .25s ease; pointer-events:none;
     }
     .video-card:hover .video-play { transform:translate(-50%,-50%) scale(1.08); }
     .video-play::before {
@@ -352,12 +349,22 @@
       border-top:12px solid transparent; border-bottom:12px solid transparent;
     }
     .video-label {
-      position:absolute; z-index:2; inset:auto 0 0; padding:18px 18px 20px; text-align:left;
+      position:absolute; z-index:2; inset:auto 0 0; padding:18px 18px 20px;
+      text-align:left; pointer-events:none;
     }
     .video-label b { display:block; font:500 1.12rem/1.25 Georgia,serif; }
     .video-label span { display:block; margin-top:5px; font-size:.76rem; color:rgba(255,255,255,.72); letter-spacing:.04em; }
-    .video-card iframe { width:100%; height:100%; border:0; display:block; }
-    .video-card.playing::after, .video-card.playing .video-play, .video-card.playing .video-label { display:none; }
+    /* Transparent hit area: a real button, so it is keyboard reachable. An
+       iframe may not live inside a <button>, hence the sibling. */
+    .video-hit {
+      position:absolute; inset:0; z-index:3;
+      border:0; padding:0; background:transparent; cursor:pointer;
+    }
+    .video-hit:focus-visible { outline:3px solid #ffd9c8; outline-offset:-5px; }
+    .video-card iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+    .video-card.playing > :not(iframe) { display:none; }
+    .video-card.playing::after { display:none; }
+    .video-card.playing:hover { transform:none; }
     .story { background:white; }
     .story-grid { display:grid; grid-template-columns:.9fr 1.1fr; gap:70px; align-items:center; }
     .story-list { display:grid; gap:20px; margin-top:28px; }
@@ -692,15 +699,16 @@
             <a href="#contact" class="btn btn-primary" data-en="Share your idea →" data-hi="अपना विचार साझा करें →">Share your idea →</a>
           </div>
           <div class="pattern-panel">
-            <button class="video-card" id="videoCard"
-                    aria-label="Play: how a custom terracotta tile is made, 1 minute 19">
+            <div class="video-card" id="videoCard">
               <img src="assets/video-poster.webp" alt="" loading="lazy" decoding="async">
               <span class="video-play" aria-hidden="true"></span>
               <span class="video-label">
                 <b data-en="How a custom tile is made" data-hi="कस्टम टाइल कैसे बनती है">How a custom tile is made</b>
                 <span data-en="Watch · 1:19" data-hi="देखें · 1:19">Watch · 1:19</span>
               </span>
-            </button>
+              <button class="video-hit" id="videoHit"
+                      aria-label="Play: how a custom terracotta tile is made, 1 minute 19"></button>
+            </div>
           </div>
         </div>
       </div>
@@ -821,21 +829,53 @@
       img.addEventListener('error', () => img.closest('.shot').classList.add('pending'));
     });
 
-    /* Custom-tile film. Swap VIDEO_ID if the video is ever replaced. */
+    /* Custom-tile film. Swap VIDEO_ID if the video is ever replaced.
+
+       Creating the player only on click means it initialises after the user
+       gesture, so YouTube shows its own play button and the visitor has to
+       click twice. Instead the player is created on the first sign of intent
+       (hover, focus, or the touch that precedes a tap) and then told to play
+       from inside the click handler, where the gesture is still live. */
     const VIDEO_ID = 'q9rSaPrv2q0';
+    const YT = 'https://www.youtube-nocookie.com';
     const videoCard = document.getElementById('videoCard');
+    const videoHit = document.getElementById('videoHit');
     const poster = videoCard.querySelector('img');
+
     const showPoster = () => videoCard.classList.add('hasposter');
     if (poster.complete && poster.naturalWidth) showPoster();   // already cached
     else poster.addEventListener('load', showPoster);
-    videoCard.addEventListener('click', () => {
-      const f = document.createElement('iframe');
-      f.src = `https://www.youtube-nocookie.com/embed/${VIDEO_ID}?autoplay=1&rel=0&playsinline=1`;
-      f.title = 'How a custom terracotta tile is made — APT Tiles';
-      f.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
-      f.allowFullscreen = true;
+
+    let frame = null;
+    function buildPlayer(autoplay) {
+      if (frame) return;
+      const q = new URLSearchParams({
+        enablejsapi: '1', rel: '0', playsinline: '1', modestbranding: '1',
+        autoplay: autoplay ? '1' : '0'
+      });
+      if (location.protocol.startsWith('http')) q.set('origin', location.origin);
+      frame = document.createElement('iframe');
+      frame.src = `${YT}/embed/${VIDEO_ID}?${q}`;
+      frame.title = 'How a custom terracotta tile is made — APT Tiles';
+      frame.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share';
+      frame.allowFullscreen = true;
+      videoCard.appendChild(frame);
+    }
+
+    const intent = () => buildPlayer(false);
+    videoCard.addEventListener('pointerenter', intent, { once: true });
+    videoCard.addEventListener('touchstart', intent, { once: true, passive: true });
+    videoHit.addEventListener('focus', intent, { once: true });
+
+    videoHit.addEventListener('click', () => {
+      const primed = frame !== null;
+      buildPlayer(!primed);            // no intent fired (rare): fall back to autoplay
       videoCard.classList.add('playing');
-      videoCard.replaceChildren(f);
+      if (!primed) return;
+      const play = () => frame.contentWindow && frame.contentWindow.postMessage(
+        JSON.stringify({ event: 'command', func: 'playVideo', args: [] }), YT);
+      play();
+      setTimeout(play, 300);           // in case the player was still booting
     }, { once: true });
 
     const lb = document.getElementById('lightbox');
