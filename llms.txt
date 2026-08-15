@@ -23,6 +23,10 @@ consumption. Sells across India and exports internationally.
 - [Full catalogue](https://apttiles.com/products.html): 27 products with
   dimensions, grouped as Jali, Cladding and Edge Cut. Each product has an
   application photograph and a technical drawing.
+- One page per product at `https://apttiles.com/products/<id>.html`, e.g.
+  [Opel](https://apttiles.com/products/opel.html). Each carries dimensions,
+  colour, group, a technical drawing and Product structured data. All 27 are
+  listed in the sitemap.
 
 ## Products
 
