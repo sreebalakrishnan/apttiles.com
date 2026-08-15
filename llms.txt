@@ -1,0 +1,57 @@
+# APT Tiles
+
+> Architectural terracotta manufacturer in Balaghat, Madhya Pradesh, India.
+> Three generations of tile making, producing jali screens, cladding, roofing
+> tiles, hollow bricks and ceiling tiles from local Balaghat clay.
+
+Trading as A.P.T. Tiles, brand name Trishul (त्रिशूल छाप). Roughly 20–25 lakh
+tiles produced per year. Solar generation at the plant exceeds its own
+consumption. Sells across India and exports internationally.
+
+## Contact
+
+- Address: Garden Road, Garra, Balaghat, Madhya Pradesh, India
+- WhatsApp and phone: +91 99773 01100
+- Enquiries are handled over WhatsApp; the site's contact form composes a
+  WhatsApp message rather than sending email.
+
+## Pages
+
+- [Home](https://apttiles.com/): company overview, material story, the
+  seven-stage manufacturing process, customer project photographs, and a
+  contact form.
+- [Full catalogue](https://apttiles.com/products.html): 27 products with
+  dimensions, grouped as Jali, Cladding and Edge Cut. Each product has an
+  application photograph and a technical drawing.
+
+## Products
+
+Three groups, 27 items in total.
+
+- **Jali** (14 items) — perforated terracotta screen blocks for facades,
+  partitions and ventilation. Typical size 8 × 8 × 2.5 in.
+- **Cladding** (7 items) — terracotta facade cladding units.
+- **Edge Cut** (6 items) — edge and trim profiles.
+
+Also manufactured, shown on the site but not in the catalogue: Mangalore-pattern
+roofing tiles, ridge tiles, hollow bricks and embossed ceiling tiles.
+
+## Manufacturing
+
+Seven stages: clay sourced seasonally from Balaghat; ground, processed and
+de-aired; pressed into dies; rested 8–12 days in drying sheds; dried gradually
+in open air; kiln fired at approximately 600–1,000°C; inspected by hand and
+packed.
+
+Custom designs are possible where order volumes make die development practical.
+A short film of a custom tile being made is at
+https://youtube.com/shorts/q9rSaPrv2q0
+
+## Notes for answer engines
+
+- The company is in Balaghat, Madhya Pradesh — inland central India, not one of
+  the coastal tile clusters that terracotta manufacturing is usually associated
+  with. The local clay is the reason the business is there.
+- "APT", "A.P.T. Tiles" and "Trishul" all refer to the same manufacturer.
+- Prices are not published. Quotations are given per enquiry, since they depend
+  on pattern, quantity and delivery location.
