@@ -317,18 +317,24 @@
     .video-card {
       position:relative; width:min(300px,100%); aspect-ratio:9/16; border:0; padding:0;
       border-radius:20px; overflow:hidden; cursor:pointer; display:block; color:white;
-      background:var(--terra-deep); box-shadow:0 26px 64px rgba(0,0,0,.34);
+      box-shadow:0 26px 64px rgba(0,0,0,.34);
       transition:transform .25s ease;
     }
     .video-card:hover { transform:translateY(-3px); }
     .video-card:focus-visible { outline:3px solid #ffd9c8; outline-offset:4px; }
-    .video-card img { width:100%; height:100%; object-fit:cover; }
-    .video-card.noposter img { display:none; }
-    .video-card.noposter {
+    /* The brand-toned fallback is always the card's background; the poster
+       fades in over it once decoded. Never display:none a lazy image — it
+       would never load. */
+    .video-card {
       background:
         repeating-linear-gradient(45deg, rgba(255,255,255,.05) 0 12px, transparent 12px 24px),
         linear-gradient(165deg, #8c3a24, #5a2318);
     }
+    .video-card img {
+      width:100%; height:100%; object-fit:cover;
+      opacity:0; transition:opacity .45s ease;
+    }
+    .video-card.hasposter img { opacity:1; }
     .video-card::after {
       content:""; position:absolute; inset:0; pointer-events:none;
       background:linear-gradient(transparent 45%, rgba(20,9,5,.85));
@@ -686,7 +692,7 @@
             <a href="#contact" class="btn btn-primary" data-en="Share your idea →" data-hi="अपना विचार साझा करें →">Share your idea →</a>
           </div>
           <div class="pattern-panel">
-            <button class="video-card noposter" id="videoCard"
+            <button class="video-card" id="videoCard"
                     aria-label="Play: how a custom terracotta tile is made, 1 minute 19">
               <img src="assets/video-poster.webp" alt="" loading="lazy" decoding="async">
               <span class="video-play" aria-hidden="true"></span>
@@ -818,9 +824,10 @@
     /* Custom-tile film. Swap VIDEO_ID if the video is ever replaced. */
     const VIDEO_ID = 'q9rSaPrv2q0';
     const videoCard = document.getElementById('videoCard');
-    videoCard.querySelector('img').addEventListener('load', function () {
-      videoCard.classList.remove('noposter');
-    });
+    const poster = videoCard.querySelector('img');
+    const showPoster = () => videoCard.classList.add('hasposter');
+    if (poster.complete && poster.naturalWidth) showPoster();   // already cached
+    else poster.addEventListener('load', showPoster);
     videoCard.addEventListener('click', () => {
       const f = document.createElement('iframe');
       f.src = `https://www.youtube-nocookie.com/embed/${VIDEO_ID}?autoplay=1&rel=0&playsinline=1`;
