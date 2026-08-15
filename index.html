@@ -697,10 +697,10 @@
     /* ---------------------------------------------------------------------
        Project gallery.
        To add or reorder photographs, edit this list only. Drop the matching
-       file into assets/projects/ and give it a span:
+       file into assets/gallery/ and give it a span:
          big  = 2 cols x 2 rows   wide = 2 cols x 1 row
          tall = 1 col  x 2 rows   (omit) = 1 col x 1 row
-       Ten entries fill the 4-column grid neatly; see assets/projects/README.md.
+       Ten entries fill the 4-column grid neatly; see assets/gallery/README.md.
     --------------------------------------------------------------------- */
     const shots = [
       { file: '01-courtyard-veranda.jpg', span: 'big',
@@ -730,7 +730,7 @@
 
     mosaic.innerHTML = shots.map((s, i) => `
       <button class="shot ${s.span || ''}" data-i="${i}" aria-label="${s.title.en}">
-        <img src="assets/projects/${s.file}" alt="${s.title.en} — APT Tiles" loading="lazy" decoding="async">
+        <img src="assets/gallery/${s.file}" alt="${s.title.en} — APT Tiles" loading="lazy" decoding="async">
         <span class="shot-cap">
           <span class="shot-chip" data-en="${s.chip.en}" data-hi="${s.chip.hi}">${s.chip.en}</span>
           <b data-en="${s.title.en}" data-hi="${s.title.hi}">${s.title.en}</b>
@@ -752,13 +752,13 @@
     function show(i) {
       at = (i + shots.length) % shots.length;
       const s = shots[at], L = lang();
-      lbImg.src = `assets/projects/${s.file}`;
+      lbImg.src = `assets/gallery/${s.file}`;
       lbImg.alt = `${s.title.en} — APT Tiles`;
       lbTitle.textContent = s.title[L];
       lbPlace.textContent = s.place[L];
       lbCount.textContent = `${at + 1} / ${shots.length}`;
       /* Warm the next image so paging feels instant. */
-      new Image().src = `assets/projects/${shots[(at + 1) % shots.length].file}`;
+      new Image().src = `assets/gallery/${shots[(at + 1) % shots.length].file}`;
     }
 
     mosaic.querySelectorAll('.shot').forEach(el => {

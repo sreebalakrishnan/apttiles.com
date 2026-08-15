@@ -2,7 +2,7 @@
 
 The homepage gallery (`index.html`, `#projects`) reads from the `shots` array at
 the top of the page's `<script>`. Each entry names a file that lives in this
-folder. Nothing is fetched from Google Photos at runtime — see "Why not live?"
+folder, `assets/gallery/`. Nothing is fetched from Google Photos at runtime — see "Why not live?"
 below.
 
 ## Adding a photograph
