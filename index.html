@@ -59,7 +59,7 @@
 
     .mosaic {
       display: grid; grid-template-columns: repeat(4, 1fr);
-      grid-auto-rows: 200px; grid-auto-flow: dense; gap: 14px;
+      grid-auto-rows: 250px; grid-auto-flow: dense; gap: 14px;
     }
     .shot {
       position: relative; overflow: hidden; border-radius: 18px; cursor: pointer;
@@ -706,7 +706,7 @@
       { file: '01-courtyard-veranda.jpg', span: 'big',
         chip: { en: 'Projects', hi: 'प्रोजेक्ट' },
         title: { en: 'A courtyard built in clay', hi: 'मिट्टी से बना आंगन' },
-        place: { en: 'Terracotta arches, columns and patterned ceiling tiles', hi: 'टेराकोटा मेहराब, स्तंभ और नक्काशीदार छत टाइलें' } },
+        place: { en: 'Terracotta arches, columns and a patterned tile ceiling', hi: 'टेराकोटा मेहराब, स्तंभ और नक्काशीदार छत' } },
       { file: '02-brick-screen-wall.jpg', span: 'tall',
         chip: { en: 'Showroom', hi: 'शोरूम' },
         title: { en: 'Perforated brick screen wall', hi: 'छिद्रित ईंट स्क्रीन वॉल' },
@@ -715,14 +715,34 @@
         chip: { en: 'Jali', hi: 'जाली' },
         title: { en: 'Jali screens as room dividers', hi: 'जाली स्क्रीन, रूम डिवाइडर के रूप में' },
         place: { en: 'Framed terracotta jali in circle and leaf patterns', hi: 'फ्रेम में लगी जाली — गोल और पत्ती पैटर्न' } },
-      { file: '04-exhibition-stall.jpg', span: 'wide',
-        chip: { en: 'Exhibition', hi: 'प्रदर्शनी' },
-        title: { en: 'Trishul brand, on the road', hi: 'त्रिशूल छाप, प्रदर्शनी में' },
-        place: { en: 'APT Tiles at a regional trade exhibition', hi: 'क्षेत्रीय व्यापार मेले में APT Tiles' } },
-      { file: '05-roofing-underside.jpg', span: 'wide',
+      { file: '04-vaulted-hall-ceiling.jpg', span: 'big', pos: 'bottom',
+        chip: { en: 'Ceiling', hi: 'छत' },
+        title: { en: 'A hall roofed in terracotta', hi: 'टेराकोटा से ढका हॉल' },
+        place: { en: 'Embossed ceiling tiles carried on a steel frame', hi: 'स्टील फ्रेम पर उभरी हुई छत टाइलें' } },
+      { file: '05-veranda-carved-door.jpg', span: 'tall',
+        chip: { en: 'Projects', hi: 'प्रोजेक्ट' },
+        title: { en: 'Veranda at a Balaghat home', hi: 'बालाघाट के एक घर का बरामदा' },
+        place: { en: 'Brick columns, stone walls and a terracotta ceiling', hi: 'ईंट के स्तंभ, पत्थर की दीवारें और टेराकोटा छत' } },
+      { file: '06-ceiling-tile-pattern.jpg', span: 'tall',
+        chip: { en: 'Ceiling', hi: 'छत' },
+        title: { en: 'Ceiling tiles, close up', hi: 'छत की टाइलें, नज़दीक से' },
+        place: { en: 'Each tile pressed with a floral relief', hi: 'हर टाइल पर उभरी फूल की नक्काशी' } },
+      { file: '07-jali-blocks-detail.jpg', span: 'wide',
+        chip: { en: 'Jali', hi: 'जाली' },
+        title: { en: 'Three jali patterns, side by side', hi: 'तीन जाली पैटर्न, साथ-साथ' },
+        place: { en: 'Flower, square and leaf cuts in natural terracotta', hi: 'फूल, चौकोर और पत्ती कट — प्राकृतिक टेराकोटा' } },
+      { file: '08-roofing-tiles-stacked.jpg', span: 'tall',
         chip: { en: 'Roofing', hi: 'छत' },
-        title: { en: 'Roofing tiles, seen from below', hi: 'नीचे से दिखती छत की टाइलें' },
-        place: { en: 'Mangalore-pattern tiles laid over steel purlins', hi: 'स्टील पर्लिन पर मंगलोर पैटर्न टाइलें' } }
+        title: { en: 'Roofing tiles, stacked at the works', hi: 'फैक्ट्री में रखी छत की टाइलें' },
+        place: { en: 'Ridge and Mangalore-pattern tiles ready for dispatch', hi: 'रिज और मंगलोर पैटर्न टाइलें, डिस्पैच के लिए तैयार' } },
+      { file: '09-roof-structure-below.jpg', span: 'tall',
+        chip: { en: 'Roofing', hi: 'छत' },
+        title: { en: 'A roof from underneath', hi: 'नीचे से दिखती छत' },
+        place: { en: 'Tiles laid over a steel truss, open to the trees', hi: 'स्टील ट्रस पर बिछी टाइलें, पेड़ों की ओर खुली' } },
+      { file: '10-roof-underside-stamped.jpg', span: 'wide',
+        chip: { en: 'Roofing', hi: 'छत' },
+        title: { en: 'Stamped A.P.T. TILES, BALAGHAT', hi: 'A.P.T. TILES, बालाघाट की मुहर' },
+        place: { en: 'Every tile carries the mark on its underside', hi: 'हर टाइल के नीचे यही निशान होता है' } }
     ];
 
     const lang = () => document.documentElement.lang === 'hi' ? 'hi' : 'en';
@@ -730,7 +750,7 @@
 
     mosaic.innerHTML = shots.map((s, i) => `
       <button class="shot ${s.span || ''}" data-i="${i}" aria-label="${s.title.en}">
-        <img src="assets/gallery/${s.file}" alt="${s.title.en} — APT Tiles" loading="lazy" decoding="async">
+        <img src="assets/gallery/${s.file}" alt="${s.title.en} — APT Tiles" loading="lazy" decoding="async"${s.pos ? ` style="object-position:${s.pos}"` : ''}>
         <span class="shot-cap">
           <span class="shot-chip" data-en="${s.chip.en}" data-hi="${s.chip.hi}">${s.chip.en}</span>
           <b data-en="${s.title.en}" data-hi="${s.title.hi}">${s.title.en}</b>
