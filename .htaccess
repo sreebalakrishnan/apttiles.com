@@ -68,13 +68,45 @@
 </IfModule>
 
 # ----------------------------------------------------------------------------
-# Deliberately NOT here, until the site is confirmed healthy again:
+# Keep the repository out of the web root.
 #
-#   * an HTTPS redirect — TLS terminates upstream on Hostinger, which makes
-#     %{HTTPS} unreliable and can cause a redirect loop. Use hPanel's
-#     "Force HTTPS" toggle instead.
-#   * "Options -Indexes" and the rewrite rules that blocked dotfiles and .md
-#     — these are the only directives that can themselves produce a 403, so
-#     they stay out while a 403 is being resolved. Once the root loads, they
-#     are worth adding back to keep .git out of the web root.
+# The Git integration checks out into the directory the site is served from, so
+# .git sits alongside the site. Anything under it would otherwise be fetchable,
+# and .git/config plus the pack files is enough to reconstruct the whole
+# repository and its history.
+#
+# RedirectMatch is used rather than a rewrite rule: it is a single directive,
+# it cannot loop, and 404 is a better answer than 403 because it does not
+# confirm that the path exists. The pattern requires a slash immediately before
+# the dot, so it matches /.git/config but not a file merely containing ".git"
+# in its name. .well-known is untouched, so certificate renewal keeps working.
+# ----------------------------------------------------------------------------
+<IfModule mod_alias.c>
+  RedirectMatch 404 "/\.(git|svn|hg|bzr|env|DS_Store)"
+</IfModule>
+
+# Documentation that ships with the repo but is not part of the site.
+<IfModule mod_authz_core.c>
+  <FilesMatch "\.(md|yml|yaml)$">
+    Require all denied
+  </FilesMatch>
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# No directory listings. /assets/ and /assets/gallery/ have no index file, so
+# without this a visitor could enumerate every file on the site.
+#
+# The <IfModule> guard below only covers the module being absent. It cannot
+# protect against the host disallowing Options in .htaccess at all, which
+# produces a 500 rather than a skipped directive. That makes this the riskiest
+# block in the file — if the site errors after a deploy, delete it first.
+# ----------------------------------------------------------------------------
+<IfModule mod_autoindex.c>
+  Options -Indexes
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# Deliberately NOT here: an HTTPS redirect. Hostinger terminates TLS upstream,
+# which makes %{HTTPS} unreliable and can cause a redirect loop that takes the
+# whole site down. Use the "Force HTTPS" toggle in hPanel instead.
 # ----------------------------------------------------------------------------
