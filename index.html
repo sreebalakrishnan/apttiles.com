@@ -6,6 +6,7 @@
   <meta name="description" content="APT Tiles — architectural terracotta, jali, roofing and elevation products from Balaghat, India." />
   <title>APT Tiles — Architectural Terracotta from Balaghat</title>
   <link rel="preload" as="image" href="assets/hero-kiln.webp">
+  <link rel="preload" as="font" type="font/woff2" href="assets/noto-serif-devanagari-subset.woff2" crossorigin>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <style>
@@ -21,6 +22,15 @@
       --line: rgba(36,33,30,.14);
       --white: #fff;
       --max: 1220px;
+    }
+    /* Subset to the 57 Devanagari characters this site actually uses.
+       Georgia has no Devanagari, so without this the script fell back to
+       whatever the OS provided and looked different on every device. */
+    @font-face {
+      font-family: 'Noto Serif Devanagari';
+      src: url('assets/noto-serif-devanagari-subset.woff2') format('woff2');
+      font-weight: 400; font-display: swap;
+      unicode-range: U+0900-097F, U+1CD0-1CFF, U+A8E0-A8FF;
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -38,12 +48,15 @@
       font-weight: 700; color: var(--terra);
     }
     h1, h2, h3 {
-      font-family: Georgia, "Times New Roman", serif;
+      font-family: 'Noto Serif Devanagari', Georgia, "Times New Roman", serif;
       font-weight: 500; line-height: 1.04; margin: 0;
     }
     h1 { font-size: clamp(3.1rem, 7vw, 7rem); letter-spacing: -.04em; }
     h2 { font-size: clamp(2.35rem, 4.8vw, 4.8rem); letter-spacing: -.035em; }
     h3 { font-size: 1.6rem; }
+    html[lang="hi"] h1, html[lang="hi"] h2, html[lang="hi"] h3 {
+      letter-spacing: normal; line-height: 1.32;
+    }
     p { margin: 0; }
     .btn {
       display: inline-flex; align-items: center; gap: .6rem; min-height: 48px;
@@ -165,6 +178,14 @@
       content:""; position:absolute; inset:auto 0 0; height:28%;
       background:linear-gradient(transparent, rgba(0,0,0,.28));
       pointer-events:none;
+    }
+    /* The counterpoint word: the local name for the material, set against the
+       export name. Always shows whichever language the headline is not in. */
+    .mitti {
+      display: block; color: #f0a882;
+      font-size: clamp(2.3rem, 5vw, 4.8rem);
+      line-height: 1.42; letter-spacing: normal;
+      margin-bottom: -.05em;
     }
     .hero-content { position:relative; z-index:2; padding: 8rem 0 5rem; width:min(800px, 92%); }
     .hero .eyebrow { color:#ffd9c8; }
@@ -554,7 +575,10 @@
     <header class="hero">
       <div class="wrap hero-content reveal">
         <div class="eyebrow" data-en="Architectural terracotta · Balaghat, India" data-hi="आर्किटेक्चरल टेराकोटा · बालाघाट, भारत">Architectural terracotta · Balaghat, India</div>
-        <h1 data-en="Terracotta. Naturally different." data-hi="टेराकोटा। स्वाभाविक रूप से अलग।">Terracotta.<br>Naturally different.</h1>
+        <h1>
+          <span class="mitti" id="mitti" lang="hi" data-en="मिट्टी" data-hi="Terracotta">मिट्टी</span>
+          <span data-en="Terracotta.|Naturally different." data-hi="टेराकोटा।|स्वाभाविक रूप से अलग।">Terracotta.<br>Naturally different.</span>
+        </h1>
         <p data-en="Three generations of manufacturing craft, distinctive local clay, and terracotta products designed for homes, facades and spaces across India and beyond."
            data-hi="तीन पीढ़ियों का निर्माण अनुभव, बालाघाट की विशिष्ट स्थानीय मिट्टी, और भारत व विदेशों के घरों, फसाड और वास्तुशिल्प स्थानों के लिए टेराकोटा उत्पाद।">
            Three generations of manufacturing craft, distinctive local clay, and terracotta products designed for homes, facades and spaces across India and beyond.
@@ -602,7 +626,7 @@
         <div class="section-head reveal">
           <div>
             <div class="eyebrow" data-en="Customer projects" data-hi="ग्राहक प्रोजेक्ट्स">Customer projects</div>
-            <h2 data-en="Terracotta in the real world." data-hi="असली दुनिया में टेराकोटा।">Terracotta in<br>the real world.</h2>
+            <h2 data-en="Terracotta in|the real world." data-hi="असली दुनिया में|टेराकोटा।">Terracotta in<br>the real world.</h2>
           </div>
           <p data-en="Photographs from customer sites, completed installations and our own showroom — façades and jali screens, roofs seen from below, and courtyards built entirely in clay."
              data-hi="ग्राहक साइटों, तैयार इंस्टॉलेशन और हमारे शोरूम की तस्वीरें — फसाड और जाली स्क्रीन, नीचे से दिखती छतें, और पूरी तरह मिट्टी से बने आंगन।">
@@ -648,7 +672,7 @@
           </div>
           <div class="clay-card">
             <span class="eyebrow" style="color:#6f2d20" data-en="Material story" data-hi="सामग्री की कहानी">Material story</span>
-            <div class="big" data-en="Mud → Architecture" data-hi="मिट्टी → वास्तुकला">Mud →<br>Architecture</div>
+            <div class="big" data-en="Mud →|Architecture" data-hi="मिट्टी →|वास्तुकला">Mud →<br>Architecture</div>
             <small data-en="Natural colour. Tactile texture. Passive ventilation." data-hi="प्राकृतिक रंग। स्पर्शनीय टेक्सचर। प्राकृतिक वेंटिलेशन।">Natural colour. Tactile texture. Passive ventilation.</small>
           </div>
         </div>
@@ -691,7 +715,7 @@
         <div class="design-box reveal">
           <div class="design-copy">
             <div class="eyebrow" style="color:#ffc8ad" data-en="For architects & designers" data-hi="आर्किटेक्ट और डिज़ाइनरों के लिए">For architects & designers</div>
-            <h2 data-en="Have a pattern in mind?" data-hi="क्या आपके मन में कोई पैटर्न है?">Have a pattern<br>in mind?</h2>
+            <h2 data-en="Have a pattern|in mind?" data-hi="क्या आपके मन में|कोई पैटर्न है?">Have a pattern<br>in mind?</h2>
             <p data-en="APT can explore custom terracotta designs where order volumes make die development practical. Share a sketch, reference or architectural intent and start a manufacturability conversation."
                data-hi="जहां ऑर्डर मात्रा के अनुसार डाई विकास व्यावहारिक हो, वहां APT कस्टम टेराकोटा डिज़ाइन पर काम कर सकता है। स्केच, संदर्भ या वास्तुशिल्प विचार साझा करें और निर्माणयोग्यता पर बातचीत शुरू करें।">
                APT can explore custom terracotta designs where order volumes make die development practical. Share a sketch, reference or architectural intent and start a manufacturability conversation.
@@ -718,7 +742,7 @@
       <div class="wrap story-grid reveal">
         <div>
           <div class="eyebrow" data-en="Our story" data-hi="हमारी कहानी">Our story</div>
-          <h2 data-en="Three generations. One material." data-hi="तीन पीढ़ियां। एक सामग्री।">Three generations.<br>One material.</h2>
+          <h2 data-en="Three generations.|One material." data-hi="तीन पीढ़ियां।|एक सामग्री।">Three generations.<br>One material.</h2>
         </div>
         <div class="story-list">
           <div><b data-en="Started with Mangalorean roofing tiles" data-hi="शुरुआत मैंगलोरियन रूफिंग टाइल्स से">Started with Mangalorean roofing tiles</b><span data-en="Originally built for rural homes as an alternative roofing system." data-hi="ग्रामीण घरों के लिए वैकल्पिक रूफिंग सिस्टम के रूप में शुरुआत।">Originally built for rural homes as an alternative roofing system.</span></div>
@@ -732,7 +756,7 @@
       <div class="wrap contact-grid reveal">
         <div>
           <div class="eyebrow" style="color:#ffc8ad" data-en="Start a conversation" data-hi="बातचीत शुरू करें">Start a conversation</div>
-          <h2 data-en="Tell us what you're building." data-hi="हमें बताएं आप क्या बना रहे हैं।">Tell us what<br>you're building.</h2>
+          <h2 data-en="Tell us what|you're building." data-hi="हमें बताएं आप|क्या बना रहे हैं।">Tell us what<br>you're building.</h2>
           <p data-en="Fill this in and we’ll open WhatsApp with your project details pre-filled."
              data-hi="फॉर्म भरें और आपकी प्रोजेक्ट जानकारी के साथ WhatsApp खुल जाएगा।">
              Fill this in and we’ll open WhatsApp with your project details pre-filled.
@@ -921,12 +945,29 @@
     const translatable = [...document.querySelectorAll('[data-en][data-hi]')];
     const enBtn = document.getElementById('enBtn');
     const hiBtn = document.getElementById('hiBtn');
+    const mitti = document.getElementById('mitti');
+
+    /* A pipe in data-en/data-hi marks a line break. Assigning textContent used
+       to wipe out the <br> in the markup, so a heading that was split over two
+       lines collapsed onto one and never recovered. */
+    function setText(el, txt) {
+      const nodes = [];
+      txt.split('|').forEach((part, i) => {
+        if (i) nodes.push(document.createElement('br'));
+        nodes.push(document.createTextNode(part));
+      });
+      el.replaceChildren(...nodes);
+    }
+
     function setLang(lang) {
       document.documentElement.lang = lang === 'hi' ? 'hi' : 'en';
       translatable.forEach(el => {
         const txt = el.dataset[lang];
-        if (txt) el.textContent = txt;
+        if (txt) setText(el, txt);
       });
+      /* Keep the counterpoint word in the opposite script, and label it so a
+         screen reader pronounces it correctly. */
+      mitti.lang = lang === 'hi' ? 'en' : 'hi';
       enBtn.classList.toggle('active', lang === 'en');
       hiBtn.classList.toggle('active', lang === 'hi');
       if (lb.open) show(at);

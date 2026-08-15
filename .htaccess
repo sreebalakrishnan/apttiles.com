@@ -1,0 +1,80 @@
+# APT Tiles — server configuration for Hostinger (Apache / LiteSpeed).
+#
+# Every directive is wrapped in an <IfModule> guard, so a server missing one of
+# these modules skips that block rather than returning a 500.
+
+# ----------------------------------------------------------------------------
+# Serve index.html for a directory request.
+#
+# Without this, https://apttiles.com/ returned 403 while
+# https://apttiles.com/index.html loaded fine: the file was present and
+# readable, but the server was not resolving the directory to it, and with
+# listings disabled that is a 403 rather than a 404.
+# ----------------------------------------------------------------------------
+<IfModule mod_dir.c>
+  DirectoryIndex index.html index.htm
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# MIME types. Current servers know these; older builds serve .webp as
+# application/octet-stream, which makes every image download instead of render.
+# ----------------------------------------------------------------------------
+<IfModule mod_mime.c>
+  AddType image/webp    .webp
+  AddType image/svg+xml .svg
+  AddType font/woff2    .woff2
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# Compression. Text only — WebP, JPEG and PNG are already compressed, and
+# running them through deflate costs CPU to make them very slightly larger.
+# woff2 is likewise already compressed.
+# ----------------------------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# Caching.
+#
+# HTML revalidates on every visit, so a Git push appears immediately rather
+# than waiting out a cached copy. Images and the font are held for 30 days.
+#
+# Image filenames are stable — replacing a photograph reuses its name — so a
+# returning visitor keeps the old copy for up to 30 days. To force an update
+# sooner, rename the file (e.g. -800.webp -> -800-v2.webp) and update the
+# reference in index.html.
+# ----------------------------------------------------------------------------
+<IfModule mod_headers.c>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "\.(webp|jpe?g|png|gif|svg|ico|woff2)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html     "access plus 0 seconds"
+  ExpiresByType image/webp    "access plus 30 days"
+  ExpiresByType image/jpeg    "access plus 30 days"
+  ExpiresByType image/png     "access plus 30 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType image/x-icon  "access plus 30 days"
+  ExpiresByType font/woff2    "access plus 30 days"
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# Deliberately NOT here, until the site is confirmed healthy again:
+#
+#   * an HTTPS redirect — TLS terminates upstream on Hostinger, which makes
+#     %{HTTPS} unreliable and can cause a redirect loop. Use hPanel's
+#     "Force HTTPS" toggle instead.
+#   * "Options -Indexes" and the rewrite rules that blocked dotfiles and .md
+#     — these are the only directives that can themselves produce a 403, so
+#     they stay out while a 403 is being resolved. Once the root loads, they
+#     are worth adding back to keep .git out of the web root.
+# ----------------------------------------------------------------------------
