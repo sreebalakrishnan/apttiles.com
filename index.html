@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="APT Tiles — architectural terracotta, jali, roofing and elevation products from Balaghat, India." />
   <title>APT Tiles — Architectural Terracotta from Balaghat</title>
-  <link rel="preload" as="image" href="assets/hero-kiln.webp">
+  <link rel="preload" as="image" href="assets/hero-courtyard.webp">
   <link rel="preload" as="font" type="font/woff2" href="assets/noto-serif-devanagari-subset.woff2" crossorigin>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -169,10 +169,15 @@
     .hero {
       min-height: 94vh; margin-top: 74px; position: relative; color: white;
       display: flex; align-items: flex-end; overflow: hidden;
-      background-image:
-        linear-gradient(90deg, rgba(23,18,14,.78) 0%, rgba(23,18,14,.38) 48%, rgba(23,18,14,.06) 75%),
-        url('assets/hero-kiln.webp');
+      background-image: url('assets/hero-courtyard.webp');
       background-size: cover; background-position: center;
+    }
+    /* Scrim kept separate from the photograph so it can change direction with
+       the viewport: sideways on desktop, where the text sits in the left
+       third, and top-to-bottom on a phone, where it spans the full width. */
+    .hero::before {
+      content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: linear-gradient(90deg, rgba(23,18,14,.82) 0%, rgba(23,18,14,.44) 50%, rgba(23,18,14,.10) 78%);
     }
     .hero::after {
       content:""; position:absolute; inset:auto 0 0; height:28%;
@@ -477,6 +482,9 @@
       .shot:hover img, .shot:focus-visible img { transform:none; }
     }
     @media (max-width: 950px) {
+      .hero::before {
+        background: linear-gradient(180deg, rgba(23,18,14,.34) 0%, rgba(23,18,14,.42) 34%, rgba(23,18,14,.90) 100%);
+      }
       .nav-links a:not(.nav-cta) { display:none; }
       .product-grid { grid-template-columns:repeat(2,1fr); }
       .section-head, .split, .story-grid, .contact-grid, .design-box { grid-template-columns:1fr; }
