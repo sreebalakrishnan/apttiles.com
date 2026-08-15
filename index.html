@@ -52,30 +52,88 @@
     .btn-ghost { border-color: rgba(255,255,255,.45); color: white; background: rgba(0,0,0,.14); backdrop-filter: blur(8px); }
     .btn-outline { border-color: var(--line); background: transparent; }
     .btn-outline:hover { border-color: var(--terra); color: var(--terra); }
-    .projects-preview { padding: 0 0 96px; }
-    .projects-panel {
-      position: relative; overflow: hidden; display: grid;
-      grid-template-columns: 1.15fr .85fr; min-height: 430px;
-      border-radius: 28px; color: white; background: var(--terra-deep);
+    .gallery { background: var(--terra-deep); color: white; }
+    .gallery .section-head { grid-template-columns: .9fr 1.1fr; }
+    .gallery .section-head p { color: rgba(255,255,255,.76); }
+    .gallery .eyebrow { color: #ffc8ad; }
+
+    .mosaic {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 200px; grid-auto-flow: dense; gap: 14px;
     }
-    .projects-panel::after {
-      content: ""; position: absolute; width: 380px; aspect-ratio: 1;
-      right: -85px; top: -120px; border: 1px solid rgba(255,255,255,.16);
-      border-radius: 50%; box-shadow: 0 0 0 55px rgba(255,255,255,.035), 0 0 0 110px rgba(255,255,255,.025);
+    .shot {
+      position: relative; overflow: hidden; border-radius: 18px; cursor: pointer;
+      background: var(--terra); border: 0; padding: 0; width: 100%; height: 100%;
+      display: block; text-align: left; color: white;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.14);
     }
-    .projects-copy { position: relative; z-index: 1; padding: clamp(38px, 6vw, 76px); }
-    .projects-copy h2 { max-width: 760px; margin-top: 12px; }
-    .projects-copy p { max-width: 650px; margin-top: 24px; color: rgba(255,255,255,.78); font-size: 1.06rem; }
-    .projects-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
-    .projects-actions .btn-outline { border-color: rgba(255,255,255,.42); color: white; }
-    .projects-actions .btn-outline:hover { border-color: white; color: white; }
-    .projects-note {
-      position: relative; z-index: 1; align-self: end; margin: 34px;
-      padding: 24px; border: 1px solid rgba(255,255,255,.18); border-radius: 20px;
-      background: rgba(255,255,255,.09); backdrop-filter: blur(8px);
+    .shot.tall { grid-row: span 2; }
+    .shot.wide { grid-column: span 2; }
+    .shot.big  { grid-column: span 2; grid-row: span 2; }
+    .shot img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .55s cubic-bezier(.2,.7,.3,1); will-change: transform;
     }
-    .projects-note strong { display: block; font-family: Georgia, serif; font-size: 1.45rem; font-weight: 500; }
-    .projects-note span { display: block; margin-top: 7px; color: rgba(255,255,255,.72); font-size: .9rem; }
+    .shot:hover img, .shot:focus-visible img { transform: scale(1.06); }
+    .shot::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(transparent 42%, rgba(28,14,9,.82));
+      opacity: .92; transition: opacity .3s ease;
+    }
+    .shot:hover::after { opacity: 1; }
+    .shot-cap {
+      position: absolute; z-index: 2; inset: auto 0 0; padding: 16px 17px;
+      display: grid; gap: 6px; transform: translateY(6px);
+      transition: transform .35s cubic-bezier(.2,.7,.3,1);
+    }
+    .shot:hover .shot-cap, .shot:focus-visible .shot-cap { transform: translateY(0); }
+    .shot-cap b { font: 500 1.06rem/1.2 Georgia, serif; }
+    .shot-chip {
+      justify-self: start; font-size: .62rem; font-weight: 700; letter-spacing: .11em;
+      text-transform: uppercase; padding: .22rem .5rem; border-radius: 999px;
+      background: rgba(255,255,255,.17); backdrop-filter: blur(6px);
+    }
+    .shot:focus-visible { outline: 2px solid #ffd9c8; outline-offset: 3px; }
+    /* Terracotta-toned stand-in until the real photograph is dropped in. */
+    .shot.pending img { display: none; }
+    .shot.pending {
+      background-image:
+        radial-gradient(circle at 30% 30%, transparent 15%, rgba(255,255,255,.16) 16% 19%, transparent 20%),
+        radial-gradient(circle at 80% 70%, transparent 15%, rgba(255,255,255,.16) 16% 19%, transparent 20%);
+      background-size: 74px 74px;
+    }
+    .gallery-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; align-items: center; }
+    .gallery-actions .btn-outline { border-color: rgba(255,255,255,.42); color: white; }
+    .gallery-actions .btn-outline:hover { border-color: white; color: white; }
+    .gallery-actions small { color: rgba(255,255,255,.6); font-size: .8rem; }
+
+    .lightbox {
+      border: 0; padding: 0; max-width: 100vw; max-height: 100vh;
+      width: 100%; height: 100%; background: transparent; color: white; overflow: hidden;
+    }
+    .lightbox::backdrop { background: rgba(18,11,8,.93); backdrop-filter: blur(4px); }
+    .lb-stage {
+      position: relative; width: 100%; height: 100%;
+      display: grid; grid-template-rows: 1fr auto; place-items: center; padding: 20px;
+    }
+    .lb-figure { display: grid; place-items: center; min-height: 0; width: 100%; }
+    .lb-figure img {
+      max-width: min(1180px, 92vw); max-height: 76vh; width: auto; height: auto;
+      border-radius: 14px; box-shadow: 0 30px 90px rgba(0,0,0,.5);
+    }
+    .lb-meta { text-align: center; padding: 16px 10px 4px; max-width: 660px; }
+    .lb-meta b { display: block; font: 500 1.5rem/1.2 Georgia, serif; }
+    .lb-meta span { display: block; margin-top: 6px; color: rgba(255,255,255,.66); font-size: .87rem; }
+    .lb-btn {
+      position: absolute; z-index: 3; top: 50%; transform: translateY(-50%);
+      width: 50px; height: 50px; border-radius: 50%; cursor: pointer;
+      border: 1px solid rgba(255,255,255,.28); background: rgba(0,0,0,.4); color: white;
+      font-size: 1.3rem; display: grid; place-items: center; transition: .2s ease;
+    }
+    .lb-btn:hover { background: var(--terra); border-color: var(--terra); }
+    .lb-prev { left: 18px; } .lb-next { right: 18px; }
+    .lb-close { top: 18px; right: 18px; transform: none; }
+    .lb-count { position: absolute; z-index: 3; top: 26px; left: 24px; font-size: .8rem; letter-spacing: .08em; color: rgba(255,255,255,.7); }
     nav {
       position: fixed; inset: 0 0 auto; z-index: 50; height: 74px;
       display: flex; align-items: center; background: rgba(248,244,237,.86);
@@ -109,7 +167,7 @@
     .hero p { font-size: clamp(1.05rem, 1.6vw, 1.28rem); max-width: 660px; margin-top:1.4rem; color: rgba(255,255,255,.88); }
     .hero-actions { display:flex; flex-wrap:wrap; gap:.7rem; margin-top:2rem; }
     .micro-note { margin-top:1rem; font-size:.75rem; opacity:.7; }
-    section { padding: 96px 0; }
+    section { padding: 96px 0; scroll-margin-top: 84px; }
     .stats {
       margin-top:-1px; background:var(--ink); color:white; padding: 0;
     }
@@ -340,12 +398,16 @@
 
     .reveal { opacity:0; transform:translateY(14px); transition:.65s ease; }
     .reveal.show { opacity:1; transform:none; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity:1; transform:none; transition:none; }
+      .shot img, .shot-cap { transition:none; }
+      .shot:hover img, .shot:focus-visible img { transform:none; }
+    }
     @media (max-width: 950px) {
       .nav-links a:not(.nav-cta) { display:none; }
       .product-grid { grid-template-columns:repeat(2,1fr); }
       .section-head, .split, .story-grid, .contact-grid, .design-box { grid-template-columns:1fr; }
-      .projects-panel { grid-template-columns: 1fr; }
-      .projects-note { margin-top: 0; }
+      .mosaic { grid-template-columns:repeat(2,1fr); grid-auto-rows:170px; }
       .sustain-grid { grid-template-columns:repeat(2,1fr); }
       .design-copy { padding:42px; }
       .pattern-panel { min-height:320px; }
@@ -398,9 +460,14 @@
     @media (max-width: 640px) {
       .wrap { width:min(100% - 24px, var(--max)); }
       section { padding:70px 0; }
-      .projects-preview { padding-bottom: 70px; }
-      .projects-panel { border-radius: 20px; }
-      .projects-note { margin: 0 24px 24px; }
+      .mosaic { gap:10px; grid-auto-rows:150px; }
+      .shot { border-radius:14px; }
+      .shot.big, .shot.wide { grid-column:span 2; }
+      .lb-stage { padding:12px; }
+      .lb-figure img { max-height:66vh; max-width:96vw; }
+      .lb-btn { width:42px; height:42px; }
+      .lb-prev { left:8px; } .lb-next { right:8px; }
+      .lb-meta b { font-size:1.2rem; }
       .hero { min-height:86vh; }
       .hero-content { padding-bottom:3.5rem; }
       .stat-grid { grid-template-columns:repeat(2,1fr); }
@@ -478,29 +545,43 @@
       </div>
     </section>
 
-    <section class="projects-preview" id="projects">
+    <section class="gallery" id="projects">
       <div class="wrap">
-        <div class="projects-panel reveal">
-          <div class="projects-copy">
-            <div class="eyebrow" style="color:#ffc8ad" data-en="Customer projects" data-hi="ग्राहक प्रोजेक्ट्स">Customer projects</div>
-            <h2 data-en="See terracotta in the real world." data-hi="असली प्रोजेक्ट्स में टेराकोटा देखें।">See terracotta in the real world.</h2>
-            <p data-en="Explore photos and videos from customer sites and completed installations—from façades and jali screens to roofs and interior applications."
-               data-hi="ग्राहक साइटों और तैयार इंस्टॉलेशन की तस्वीरें और वीडियो देखें—फसाड और जाली स्क्रीन से लेकर छतों और इंटीरियर उपयोग तक।">
-              Explore photos and videos from customer sites and completed installations—from façades and jali screens to roofs and interior applications.
-            </p>
-            <div class="projects-actions">
-              <a class="btn btn-primary" href="https://photos.app.goo.gl/uRNjBmc1BfkJ6SfeA" target="_blank" rel="noopener noreferrer" data-en="View customer projects ↗" data-hi="ग्राहक प्रोजेक्ट्स देखें ↗">View customer projects ↗</a>
-              <a class="btn btn-outline" href="#contact" data-en="Discuss a similar project →" data-hi="ऐसे प्रोजेक्ट पर चर्चा करें →">Discuss a similar project →</a>
-            </div>
+        <div class="section-head reveal">
+          <div>
+            <div class="eyebrow" data-en="Customer projects" data-hi="ग्राहक प्रोजेक्ट्स">Customer projects</div>
+            <h2 data-en="Terracotta in the real world." data-hi="असली दुनिया में टेराकोटा।">Terracotta in<br>the real world.</h2>
           </div>
-          <div class="projects-note" aria-label="Project album contents">
-            <strong data-en="Real sites. Real installations." data-hi="असली साइटें। असली इंस्टॉलेशन।">Real sites. Real installations.</strong>
-            <span data-en="The shared album opens in Google Photos and includes both photographs and videos."
-                  data-hi="शेयर्ड एल्बम Google Photos में खुलता है और इसमें तस्वीरें और वीडियो दोनों हैं।">The shared album opens in Google Photos and includes both photographs and videos.</span>
-          </div>
+          <p data-en="Photographs from customer sites, completed installations and our own showroom — façades and jali screens, roofs seen from below, and courtyards built entirely in clay."
+             data-hi="ग्राहक साइटों, तैयार इंस्टॉलेशन और हमारे शोरूम की तस्वीरें — फसाड और जाली स्क्रीन, नीचे से दिखती छतें, और पूरी तरह मिट्टी से बने आंगन।">
+             Photographs from customer sites, completed installations and our own showroom — façades and jali screens, roofs seen from below, and courtyards built entirely in clay.
+          </p>
+        </div>
+
+        <div class="mosaic reveal" id="mosaic"></div>
+
+        <div class="gallery-actions reveal">
+          <a class="btn btn-outline" href="https://photos.app.goo.gl/uRNjBmc1BfkJ6SfeA" target="_blank" rel="noopener noreferrer" data-en="See the full album ↗" data-hi="पूरा एल्बम देखें ↗">See the full album ↗</a>
+          <a class="btn btn-primary" href="#contact" data-en="Discuss a similar project →" data-hi="ऐसे प्रोजेक्ट पर चर्चा करें →">Discuss a similar project →</a>
+          <small data-en="The full album opens in Google Photos and includes videos."
+                 data-hi="पूरा एल्बम Google Photos में खुलता है और इसमें वीडियो भी शामिल हैं।">The full album opens in Google Photos and includes videos.</small>
         </div>
       </div>
     </section>
+
+    <dialog class="lightbox" id="lightbox" aria-label="Project photograph">
+      <div class="lb-stage">
+        <span class="lb-count" id="lbCount"></span>
+        <button class="lb-btn lb-close" id="lbClose" aria-label="Close">×</button>
+        <button class="lb-btn lb-prev" id="lbPrev" aria-label="Previous photograph">‹</button>
+        <button class="lb-btn lb-next" id="lbNext" aria-label="Next photograph">›</button>
+        <div class="lb-figure"><img id="lbImg" alt=""></div>
+        <div class="lb-meta">
+          <b id="lbTitle"></b>
+          <span id="lbPlace"></span>
+        </div>
+      </div>
+    </dialog>
 
     <section class="material" id="material">
       <div class="wrap">
@@ -613,6 +694,94 @@
   </footer>
 
   <script>
+    /* ---------------------------------------------------------------------
+       Project gallery.
+       To add or reorder photographs, edit this list only. Drop the matching
+       file into assets/projects/ and give it a span:
+         big  = 2 cols x 2 rows   wide = 2 cols x 1 row
+         tall = 1 col  x 2 rows   (omit) = 1 col x 1 row
+       Ten entries fill the 4-column grid neatly; see assets/projects/README.md.
+    --------------------------------------------------------------------- */
+    const shots = [
+      { file: '01-courtyard-veranda.jpg', span: 'big',
+        chip: { en: 'Projects', hi: 'प्रोजेक्ट' },
+        title: { en: 'A courtyard built in clay', hi: 'मिट्टी से बना आंगन' },
+        place: { en: 'Terracotta arches, columns and patterned ceiling tiles', hi: 'टेराकोटा मेहराब, स्तंभ और नक्काशीदार छत टाइलें' } },
+      { file: '02-brick-screen-wall.jpg', span: 'tall',
+        chip: { en: 'Showroom', hi: 'शोरूम' },
+        title: { en: 'Perforated brick screen wall', hi: 'छिद्रित ईंट स्क्रीन वॉल' },
+        place: { en: 'Hollow bricks stacked into a breathing partition', hi: 'खोखली ईंटों से बनी सांस लेती दीवार' } },
+      { file: '03-jali-room-dividers.jpg', span: 'tall',
+        chip: { en: 'Jali', hi: 'जाली' },
+        title: { en: 'Jali screens as room dividers', hi: 'जाली स्क्रीन, रूम डिवाइडर के रूप में' },
+        place: { en: 'Framed terracotta jali in circle and leaf patterns', hi: 'फ्रेम में लगी जाली — गोल और पत्ती पैटर्न' } },
+      { file: '04-exhibition-stall.jpg', span: 'wide',
+        chip: { en: 'Exhibition', hi: 'प्रदर्शनी' },
+        title: { en: 'Trishul brand, on the road', hi: 'त्रिशूल छाप, प्रदर्शनी में' },
+        place: { en: 'APT Tiles at a regional trade exhibition', hi: 'क्षेत्रीय व्यापार मेले में APT Tiles' } },
+      { file: '05-roofing-underside.jpg', span: 'wide',
+        chip: { en: 'Roofing', hi: 'छत' },
+        title: { en: 'Roofing tiles, seen from below', hi: 'नीचे से दिखती छत की टाइलें' },
+        place: { en: 'Mangalore-pattern tiles laid over steel purlins', hi: 'स्टील पर्लिन पर मंगलोर पैटर्न टाइलें' } }
+    ];
+
+    const lang = () => document.documentElement.lang === 'hi' ? 'hi' : 'en';
+    const mosaic = document.getElementById('mosaic');
+
+    mosaic.innerHTML = shots.map((s, i) => `
+      <button class="shot ${s.span || ''}" data-i="${i}" aria-label="${s.title.en}">
+        <img src="assets/projects/${s.file}" alt="${s.title.en} — APT Tiles" loading="lazy" decoding="async">
+        <span class="shot-cap">
+          <span class="shot-chip" data-en="${s.chip.en}" data-hi="${s.chip.hi}">${s.chip.en}</span>
+          <b data-en="${s.title.en}" data-hi="${s.title.hi}">${s.title.en}</b>
+        </span>
+      </button>`).join('');
+
+    /* A missing file falls back to the terracotta pattern rather than a broken icon. */
+    mosaic.querySelectorAll('img').forEach(img => {
+      img.addEventListener('error', () => img.closest('.shot').classList.add('pending'));
+    });
+
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lbImg');
+    const lbTitle = document.getElementById('lbTitle');
+    const lbPlace = document.getElementById('lbPlace');
+    const lbCount = document.getElementById('lbCount');
+    let at = 0;
+
+    function show(i) {
+      at = (i + shots.length) % shots.length;
+      const s = shots[at], L = lang();
+      lbImg.src = `assets/projects/${s.file}`;
+      lbImg.alt = `${s.title.en} — APT Tiles`;
+      lbTitle.textContent = s.title[L];
+      lbPlace.textContent = s.place[L];
+      lbCount.textContent = `${at + 1} / ${shots.length}`;
+      /* Warm the next image so paging feels instant. */
+      new Image().src = `assets/projects/${shots[(at + 1) % shots.length].file}`;
+    }
+
+    mosaic.querySelectorAll('.shot').forEach(el => {
+      el.addEventListener('click', () => { show(+el.dataset.i); lb.showModal(); });
+    });
+    document.getElementById('lbPrev').addEventListener('click', () => show(at - 1));
+    document.getElementById('lbNext').addEventListener('click', () => show(at + 1));
+    document.getElementById('lbClose').addEventListener('click', () => lb.close());
+    lb.addEventListener('click', e => { if (e.target === lb || e.target.classList.contains('lb-stage')) lb.close(); });
+    lb.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(at + 1); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); show(at - 1); }
+    });
+
+    let swipeX = null;
+    lb.addEventListener('touchstart', e => { swipeX = e.changedTouches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', e => {
+      if (swipeX === null) return;
+      const dx = e.changedTouches[0].clientX - swipeX;
+      if (Math.abs(dx) > 45) show(dx < 0 ? at + 1 : at - 1);
+      swipeX = null;
+    }, { passive: true });
+
     const translatable = [...document.querySelectorAll('[data-en][data-hi]')];
     const enBtn = document.getElementById('enBtn');
     const hiBtn = document.getElementById('hiBtn');
@@ -624,6 +793,7 @@
       });
       enBtn.classList.toggle('active', lang === 'en');
       hiBtn.classList.toggle('active', lang === 'hi');
+      if (lb.open) show(at);
     }
     enBtn.addEventListener('click', () => setLang('en'));
     hiBtn.addEventListener('click', () => setLang('hi'));
